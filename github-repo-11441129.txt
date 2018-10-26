@@ -1,0 +1,12 @@
+Integrantes:
+Mauricio Matamoros 11441129
+-----------------------------------------------------------------
+Como ejecutar:
+git clone https://github.com/MauriMatamoros/seguridad-tarea1.git
+cd seguridad-tarea1
+rm package-lock.json
+npm i
+node tarea.js
+*Replace the string on line 6 with the string you'd like to decode
+
+
