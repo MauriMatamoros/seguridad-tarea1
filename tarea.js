@@ -22,7 +22,7 @@ for (let i = 0; i < 2; i++) {
             matches.matches = matchingWords.length;
         }
         let string = phrase.findWords(matchingWords);
-        console.log(`${index} ${string}`);
+        console.log(`${string}`);
     });
     console.log(colors.red(`Match found: ${possibilities[matches.index]}`));
 }
