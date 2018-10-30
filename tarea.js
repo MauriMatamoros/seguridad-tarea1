@@ -5,8 +5,6 @@ const _ = require('lodash/array');
 let alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 let string = 'phhw ph diwhu wkh wrjd sduwb'.toLowerCase();
 let possibilities = [];
-let twoLetterWords = words.filter((word) => word.length === 2);
-let threeLetterWords = words.filter((word) => word.length === 3);
 
 let stringToArray = (string) => {
     let array = [];
@@ -48,16 +46,11 @@ class Phrase {
         this.possibilities = possibilities;
     }
 
-    findWords(twoLetterWords, threeLetterWords) {
+    findWords(matchingWords) {
         let string = '';
-        this.possibilities.forEach((possibility) => {
-            threeLetterWords.forEach((threeLetterWord) => {
-                if (threeLetterWord === possibility) {
-                    possibility = colors.green(possibility);
-                }
-            });
-            twoLetterWords.forEach((twoLetterWord) => {
-                if (twoLetterWord === possibility) {
+        this.possibilities.forEach((possibility, index) => {
+            matchingWords.forEach((matchingWord) => {
+                if (matchingWord === possibility) {
                     possibility = colors.green(possibility);
                 }
             });
@@ -68,15 +61,21 @@ class Phrase {
 
 };
 
+let matches = {
+    index: 0,
+    matches: 0
+};
+
 possibilities.forEach((possibility, index) => {
     let possibilityArray = possibility.split(' ');
     let phrase = new Phrase(possibilityArray);
-    let matchingTwoLetterWords = _.intersection(possibilityArray, twoLetterWords);
-    let matchingThreeLetterWords = _.intersection(possibilityArray, threeLetterWords);
-    let string = phrase.findWords(matchingTwoLetterWords, matchingThreeLetterWords);
-    if ((matchingTwoLetterWords.length > 0) || (matchingThreeLetterWords.length > 0)) {
-        console.log(colors.red(`${index} Match Found: ${string}`));
-    } else {
-        console.log(`${index} ${string}`);
+    let matchingWords = _.intersection(possibilityArray, words);
+    if (matches.matches < matchingWords.length) {
+        matches.index = index;
+        matches.matches = matchingWords.length;
     }
+    let string = phrase.findWords(matchingWords);
+    console.log(`${index} ${string}`);
 });
+
+console.log(colors.red(`Match found: ${possibilities[matches.index]}`));
